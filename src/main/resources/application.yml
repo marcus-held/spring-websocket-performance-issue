@@ -1,0 +1,9 @@
+message-queue:
+  host: localhost
+  port: 61613
+  system-username: guest
+  system-password: guest
+  client-username: guest
+  client-password: guest
+logging:
+  path: log

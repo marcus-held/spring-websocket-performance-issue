@@ -1,0 +1,8 @@
+version: '3'
+services:
+  rabbitmq:
+    image: byteflair/rabbitmq-stomp
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
