@@ -19,18 +19,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableStompBrokerRelay(WEBSOCKET_SUBSCRIBE_PATH)
-				.setAutoStartup(true)
-				.setRelayHost(properties.getHost())
-				.setRelayPort(properties.getPort())
-				.setSystemHeartbeatReceiveInterval(10000)
-				.setSystemHeartbeatSendInterval(10000)
-				.setSystemLogin(properties.getSystemUsername())
-				.setSystemPasscode(properties.getSystemPassword())
-				.setClientLogin(properties.getClientUsername())
-				.setClientPasscode(properties.getClientPassword())
-				.setUserRegistryBroadcast("/topic/vil-user-registry")
-				.setUserDestinationBroadcast("/topic/vil-unresolved-user-destination");
+		config.enableSimpleBroker(WEBSOCKET_SUBSCRIBE_PATH);
 
 		config.setApplicationDestinationPrefixes(WEBSOCKET_DESTINATION_PREFIX);
 	}
