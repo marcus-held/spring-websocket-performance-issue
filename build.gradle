@@ -31,5 +31,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-reactor-netty')
 	compile('com.google.guava:guava:22.0')
 	compile('org.projectlombok:lombok')
+
+	testCompile('net.jodah:concurrentunit:0.4.3')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

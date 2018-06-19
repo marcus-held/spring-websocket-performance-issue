@@ -27,3 +27,7 @@ You'll notice that you can run the test only with a handful of clients and most 
 
 Note: For the simple broker the above image does not represent the limit.
 
+# ALTERNATIVE: JUnit Test
+
+You can also reproduce the issue with the provided unit tests in `PerformanceIssueApplicationTests`.
+
