@@ -29,6 +29,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-websocket')
 	compile("org.springframework.boot:spring-boot-starter-security")
 	compile('org.springframework.boot:spring-boot-starter-reactor-netty')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('com.google.guava:guava:22.0')
 	compile('org.projectlombok:lombok')
 
