@@ -20,9 +20,4 @@ public class WebsocketController {
 		template.convertAndSendToUser(principal.getName(), USER_UPDATE_SUBSCRIBE_PATH, "foo");
 	}
 
-	@SubscribeMapping(USER_UPDATE_SUBSCRIBE_PATH)
-	public boolean subscribeToUserQueue() {
-		return true;
-	}
-
 }

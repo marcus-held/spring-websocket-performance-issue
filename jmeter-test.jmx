@@ -9,7 +9,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="thread_count" elementType="Argument">
             <stringProp name="Argument.name">thread_count</stringProp>
-            <stringProp name="Argument.value">${__P(THREAD_COUNT,1)}</stringProp>
+            <stringProp name="Argument.value">${__P(THREAD_COUNT,2000)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="duration" elementType="Argument">
@@ -19,7 +19,7 @@
           </elementProp>
           <elementProp name="ramp_up" elementType="Argument">
             <stringProp name="Argument.name">ramp_up</stringProp>
-            <stringProp name="Argument.value">${__P(RAMPUP,0)}</stringProp>
+            <stringProp name="Argument.value">${__P(RAMPUP,500)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="actionPerMin" elementType="Argument">
@@ -29,17 +29,17 @@
           </elementProp>
           <elementProp name="SERVER_NAME" elementType="Argument">
             <stringProp name="Argument.name">SERVER_NAME</stringProp>
-            <stringProp name="Argument.value">${__P(SERVER_NAME,vil-xl1.innogames-test.de)}</stringProp>
+            <stringProp name="Argument.value">${__P(SERVER_NAME,localhost)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="SERVER_PORT" elementType="Argument">
             <stringProp name="Argument.name">SERVER_PORT</stringProp>
-            <stringProp name="Argument.value">${__P(SERVER_PORT,443)}</stringProp>
+            <stringProp name="Argument.value">${__P(SERVER_PORT,8080)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="SERVER_HTTP_PROTOCOL" elementType="Argument">
             <stringProp name="Argument.name">SERVER_HTTP_PROTOCOL</stringProp>
-            <stringProp name="Argument.value">${__P(SERVER_HTTP_PROTOCOL,https)}</stringProp>
+            <stringProp name="Argument.value">${__P(SERVER_HTTP_PROTOCOL,http)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="null" elementType="Argument">
@@ -127,9 +127,9 @@ vars.put(&quot;basicAuth&quot;, basicAuth)</stringProp>
         </hashTree>
         <eu.luminis.jmeter.wssampler.RequestResponseWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.RequestResponseWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.RequestResponseWebSocketSampler" testname="STOMP Connect" enabled="true">
           <boolProp name="createNewConnection">true</boolProp>
-          <boolProp name="TLS">true</boolProp>
+          <boolProp name="TLS">false</boolProp>
           <stringProp name="server">${SERVER_NAME}</stringProp>
-          <stringProp name="port">443</stringProp>
+          <stringProp name="port">8080</stringProp>
           <stringProp name="path">play</stringProp>
           <boolProp name="binaryPayload">false</boolProp>
           <stringProp name="requestData">CONNECT
@@ -185,7 +185,37 @@ ${null}</stringProp>
           </eu.luminis.jmeter.wssampler.TextFrameFilter>
           <hashTree/>
         </hashTree>
-        <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="Messages" enabled="true">
+        <eu.luminis.jmeter.wssampler.RequestResponseWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.RequestResponseWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.RequestResponseWebSocketSampler" testname="Test" enabled="true">
+          <boolProp name="createNewConnection">false</boolProp>
+          <boolProp name="TLS">false</boolProp>
+          <stringProp name="server"></stringProp>
+          <stringProp name="port">80</stringProp>
+          <stringProp name="path"></stringProp>
+          <boolProp name="binaryPayload">false</boolProp>
+          <stringProp name="requestData">SEND
+content-type:application/json
+destination:/app/test
+
+${null}</stringProp>
+        </eu.luminis.jmeter.wssampler.RequestResponseWebSocketSampler>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-809470193">/user/exchange/amq.direct/update</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <eu.luminis.jmeter.wssampler.TextFrameFilter guiclass="eu.luminis.jmeter.wssampler.TextFrameFilterGui" testclass="eu.luminis.jmeter.wssampler.TextFrameFilter" testname="WebSocket Text Frame Filter" enabled="true">
+            <stringProp name="comparisonType">NotContainsRegex</stringProp>
+            <stringProp name="matchValue">foo</stringProp>
+          </eu.luminis.jmeter.wssampler.TextFrameFilter>
+          <hashTree/>
+        </hashTree>
+        <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="Messages" enabled="false">
           <stringProp name="WhileController.condition">${__groovy(Long.parseLong(vars.get(&quot;sessionEndTime&quot;)) &gt; System.currentTimeMillis())}</stringProp>
         </WhileController>
         <hashTree>
@@ -292,7 +322,7 @@ receipt-id:123</stringProp>
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="false">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
@@ -364,49 +394,6 @@ receipt-id:123</stringProp>
         <stringProp name="filename"></stringProp>
         <stringProp name="RespTimeGraph.interval">1000</stringProp>
       </ResultCollector>
-      <hashTree/>
-      <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
-        <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
-          <collectionProp name="Arguments.arguments">
-            <elementProp name="graphiteMetricsSender" elementType="Argument">
-              <stringProp name="Argument.name">graphiteMetricsSender</stringProp>
-              <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.graphite.TextGraphiteMetricsSender</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="graphiteHost" elementType="Argument">
-              <stringProp name="Argument.name">graphiteHost</stringProp>
-              <stringProp name="Argument.value">localhost</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="graphitePort" elementType="Argument">
-              <stringProp name="Argument.name">graphitePort</stringProp>
-              <stringProp name="Argument.value">3002</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="rootMetricsPrefix" elementType="Argument">
-              <stringProp name="Argument.name">rootMetricsPrefix</stringProp>
-              <stringProp name="Argument.value">servers.admin_loadtest.jmeter.vil.</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="summaryOnly" elementType="Argument">
-              <stringProp name="Argument.name">summaryOnly</stringProp>
-              <stringProp name="Argument.value">true</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="samplersList" elementType="Argument">
-              <stringProp name="Argument.name">samplersList</stringProp>
-              <stringProp name="Argument.value">.*</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="percentiles" elementType="Argument">
-              <stringProp name="Argument.name">percentiles</stringProp>
-              <stringProp name="Argument.value">90;95;99</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-          </collectionProp>
-        </elementProp>
-        <stringProp name="classname">org.apache.jmeter.visualizers.backend.graphite.GraphiteBackendListenerClient</stringProp>
-      </BackendListener>
       <hashTree/>
     </hashTree>
   </hashTree>

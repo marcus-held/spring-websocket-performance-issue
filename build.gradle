@@ -23,6 +23,9 @@ repositories {
 	mavenCentral()
 }
 
+wrapper {
+	gradleVersion = '4.5.1'
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
